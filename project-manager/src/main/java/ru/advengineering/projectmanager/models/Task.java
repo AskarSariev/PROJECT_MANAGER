@@ -3,6 +3,7 @@ package ru.advengineering.projectmanager.models;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "Tasks")
@@ -27,6 +28,10 @@ public class Task {
 
     @Column(name = "executor")
     private String executor;
+
+    @ManyToOne
+    @JoinColumn(name = "project_id")
+    private List<Project> projects;
 
     public Task() {
     }

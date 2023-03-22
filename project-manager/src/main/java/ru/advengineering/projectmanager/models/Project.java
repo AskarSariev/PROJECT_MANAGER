@@ -2,6 +2,8 @@ package ru.advengineering.projectmanager.models;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "Projects")
 public class Project {
@@ -15,6 +17,11 @@ public class Project {
     private String name;
     @Column(name = "parent_project_id")
     private int parentProjectId;
+
+    private List<Project> parentProjects;
+
+    @OneToMany(mappedBy = "projects")
+    private List<Task> tasks;
 
     public Project() {
     }
