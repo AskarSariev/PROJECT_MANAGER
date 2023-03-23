@@ -18,12 +18,14 @@ public class Project {
     @Column(name = "parent_project_id")
     private int parentProjectId;
 
-    private List<Project> parentProjects;
-
     @OneToMany(mappedBy = "projects")
     private List<Task> tasks;
 
     public Project() {
+    }
+
+    public Project(String name) {
+        this.name = name;
     }
 
     public Project(String name, int parentProjectId) {
