@@ -30,9 +30,8 @@ public class Task {
     private String executor;
 
     @ManyToOne
-    @JoinColumn(name = "project_id")
-    private List<Project> projects;
-
+    @JoinColumn(name = "project_id", referencedColumnName = "id")
+    private Project project;
     public Task() {
     }
 

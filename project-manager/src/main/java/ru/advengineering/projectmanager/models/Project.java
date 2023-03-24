@@ -2,6 +2,8 @@ package ru.advengineering.projectmanager.models;
 
 import jakarta.persistence.*;
 
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,9 +18,11 @@ public class Project {
     @Column(name = "name")
     private String name;
     @Column(name = "parent_project_id")
-    private int parentProjectId;
+    private Integer parentProjectId;
 
-    @OneToMany(mappedBy = "projects")
+    @OneToMany(mappedBy = "project",
+               cascade = CascadeType.ALL,
+               fetch = FetchType.EAGER)
     private List<Task> tasks;
 
     public Project() {
@@ -28,7 +32,7 @@ public class Project {
         this.name = name;
     }
 
-    public Project(String name, int parentProjectId) {
+    public Project(String name, Integer parentProjectId) {
         this.name = name;
         this.parentProjectId = parentProjectId;
     }
@@ -49,12 +53,20 @@ public class Project {
         this.name = name;
     }
 
-    public int getParentProjectId() {
+    public Integer getParentProjectId() {
         return parentProjectId;
     }
 
-    public void setParentProjectId(int parentProjectId) {
+    public void setParentProjectId(Integer parentProjectId) {
         this.parentProjectId = parentProjectId;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
     }
 
     @Override
@@ -63,6 +75,7 @@ public class Project {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", parentProjectId=" + parentProjectId +
+                ", tasks=" + tasks +
                 '}';
     }
 }
