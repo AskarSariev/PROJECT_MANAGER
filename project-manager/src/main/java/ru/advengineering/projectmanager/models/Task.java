@@ -1,6 +1,7 @@
 package ru.advengineering.projectmanager.models;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -20,26 +21,33 @@ public class Task {
     private String status;
 
     @Column(name = "create_date")
+//    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate createDate;
 
     @Column(name = "update_date")
+//    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate updateDate;
 
     @Column(name = "executor")
     private String executor;
 
-    @ManyToOne
-    @JoinColumn(name = "project_id", referencedColumnName = "id")
+    @Column(name = "project_id", nullable=false)
+    private int projectId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "project_id", insertable=false, updatable=false)
     private Project project;
+
     public Task() {
     }
 
-    public Task(String name, String status, LocalDate createDate, LocalDate updateDate, String executor) {
+    public Task(String name, String status, LocalDate createDate, LocalDate updateDate, String executor, int projectId) {
         this.name = name;
         this.status = status;
         this.createDate = createDate;
         this.updateDate = updateDate;
         this.executor = executor;
+        this.projectId = projectId;
     }
 
     public int getId() {
@@ -90,6 +98,14 @@ public class Task {
         this.executor = executor;
     }
 
+    public int getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(int projectId) {
+        this.projectId = projectId;
+    }
+
     @Override
     public String toString() {
         return "Task{" +
@@ -99,6 +115,7 @@ public class Task {
                 ", createDate=" + createDate +
                 ", updateDate=" + updateDate +
                 ", executor='" + executor + '\'' +
+                ", projectId=" + projectId +
                 '}';
     }
 }
