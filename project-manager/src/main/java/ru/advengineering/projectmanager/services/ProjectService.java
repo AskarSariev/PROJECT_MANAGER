@@ -31,4 +31,9 @@ public class ProjectService {
     public void updateProject(Project project) {
         projectRepository.save(project);
     }
+
+    @Transactional
+    public void deleteProject(int id) {
+        projectRepository.deleteById(id);
+    }
 }

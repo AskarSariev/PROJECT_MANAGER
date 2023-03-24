@@ -1,10 +1,7 @@
 package ru.advengineering.projectmanager.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.advengineering.projectmanager.models.Task;
 import ru.advengineering.projectmanager.services.TaskService;
 
@@ -25,8 +22,18 @@ public class TaskController {
         return taskService.findAllTasks();
     }
 
-    @PostMapping("/new-task")
+    @PostMapping("/task")
     public void addNewTask(@RequestBody Task task) {
         taskService.saveTask(task);
+    }
+
+    @PutMapping("/task")
+    public void updateTask(@RequestBody Task task) {
+        taskService.updateTask(task);
+    }
+
+    @DeleteMapping("/task/{id}")
+    public void deleteTask(@PathVariable("id") int id) {
+        taskService.deleteTask(id);
     }
 }

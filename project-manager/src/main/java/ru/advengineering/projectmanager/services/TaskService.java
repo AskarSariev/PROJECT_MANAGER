@@ -26,4 +26,14 @@ public class TaskService {
     public void saveTask(Task task) {
         taskRepository.save(task);
     }
+
+    @Transactional
+    public void updateTask(Task task) {
+        taskRepository.save(task);
+    }
+
+    @Transactional
+    public void deleteTask(int id) {
+        taskRepository.deleteById(id);
+    }
 }

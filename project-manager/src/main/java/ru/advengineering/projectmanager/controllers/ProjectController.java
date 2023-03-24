@@ -1,8 +1,6 @@
 package ru.advengineering.projectmanager.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.advengineering.projectmanager.models.Project;
 import ru.advengineering.projectmanager.services.ProjectService;
@@ -27,13 +25,18 @@ public class ProjectController {
         return projectService.findAllProjects();
     }
 
-    @PostMapping("/new-project")
+    @PostMapping("/project")
     public void addNewProject(@RequestBody Project project) {
         projectService.saveProject(project);
     }
 
-    @PutMapping("/put-project")
+    @PutMapping("/project")
     public void updateProject(@RequestBody Project project) {
         projectService.updateProject(project);
+    }
+
+    @DeleteMapping("/project/{id}")
+    public void deleteProject(@PathVariable("id") int id) {
+        projectService.deleteProject(id);
     }
 }
