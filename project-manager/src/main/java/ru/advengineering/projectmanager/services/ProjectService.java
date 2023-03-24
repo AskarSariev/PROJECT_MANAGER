@@ -26,4 +26,9 @@ public class ProjectService {
     public void saveProject(Project project) {
         projectRepository.save(project);
     }
+
+    @Transactional
+    public void updateProject(Project project) {
+        projectRepository.save(project);
+    }
 }

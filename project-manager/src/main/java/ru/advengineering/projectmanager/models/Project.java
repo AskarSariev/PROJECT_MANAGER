@@ -2,8 +2,6 @@ package ru.advengineering.projectmanager.models;
 
 import jakarta.persistence.*;
 
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity

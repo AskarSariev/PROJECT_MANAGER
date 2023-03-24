@@ -1,7 +1,6 @@
 package ru.advengineering.projectmanager.models;
 
 import jakarta.persistence.*;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -21,11 +20,9 @@ public class Task {
     private String status;
 
     @Column(name = "create_date")
-//    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate createDate;
 
     @Column(name = "update_date")
-//    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate updateDate;
 
     @Column(name = "executor")

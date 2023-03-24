@@ -31,4 +31,9 @@ public class ProjectController {
     public void addNewProject(@RequestBody Project project) {
         projectService.saveProject(project);
     }
+
+    @PutMapping("/put-project")
+    public void updateProject(@RequestBody Project project) {
+        projectService.updateProject(project);
+    }
 }
