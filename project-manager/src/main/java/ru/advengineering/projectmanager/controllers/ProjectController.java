@@ -3,9 +3,7 @@ package ru.advengineering.projectmanager.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.advengineering.projectmanager.models.Project;
 import ru.advengineering.projectmanager.services.ProjectService;
 import ru.advengineering.projectmanager.services.TaskService;
@@ -25,7 +23,12 @@ public class ProjectController {
     }
 
     @GetMapping("/projects")
-    public List<Project> findAllProjects() {
+    public List<Project> getAllProjects() {
         return projectService.findAllProjects();
+    }
+
+    @PostMapping("/new-project")
+    public void addNewProject(@RequestBody Project project) {
+        projectService.saveProject(project);
     }
 }
