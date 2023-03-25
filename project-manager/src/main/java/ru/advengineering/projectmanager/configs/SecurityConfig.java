@@ -1,6 +1,7 @@
 package ru.advengineering.projectmanager.configs;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,16 +16,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/projects", "/tasks")
-                .hasAnyRole("USER", "ADMIN")
+
+        http
+                .httpBasic()
                 .and()
-                .formLogin().permitAll()
-                .defaultSuccessUrl("/projects")
+                .authorizeRequests()
+                .antMatchers(HttpMethod.GET, "/projects", "/tasks").hasAnyRole("USER", "ADMIN")
+                .antMatchers(HttpMethod.POST, "/task").hasAnyRole("USER", "ADMIN")
+                .antMatchers(HttpMethod.POST, "/project").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/task").hasAnyRole("USER", "ADMIN")
+                .antMatchers(HttpMethod.PUT, "/project").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/task/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/project/**").hasRole("ADMIN")
                 .and()
-                .logout()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/login");
+                .csrf().disable()
+                .formLogin().disable();
+//                .formLogin().permitAll()
+//                .defaultSuccessUrl("/projects")
+//                .and()
+//                .logout()
+//                .logoutUrl("/logout")
+//                .logoutSuccessUrl("/login");
     }
 
     @Override
