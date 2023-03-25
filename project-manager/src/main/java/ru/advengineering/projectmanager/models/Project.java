@@ -1,6 +1,7 @@
 package ru.advengineering.projectmanager.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class Project {
     private int id;
 
     @Column(name = "name")
+    @NotEmpty(message = "Project name shouldn't be empty")
     private String name;
     @Column(name = "parent_project_id")
     private Integer parentProjectId;

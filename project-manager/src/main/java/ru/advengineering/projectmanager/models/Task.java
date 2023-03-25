@@ -1,6 +1,8 @@
 package ru.advengineering.projectmanager.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
@@ -14,12 +16,15 @@ public class Task {
     private int id;
 
     @Column(name = "name")
+    @NotEmpty(message = "Task name shouldn't be empty")
     private String name;
 
     @Column(name = "status")
+    @NotEmpty(message = "Task status shouldn't be empty")
     private String status;
 
     @Column(name = "create_date")
+    @NotNull(message = "Create date shouldn't be null")
     private LocalDate createDate;
 
     @Column(name = "update_date")
@@ -29,6 +34,7 @@ public class Task {
     private String executor;
 
     @Column(name = "project_id", nullable=false)
+    @NotNull(message = "Project_ID shouldn't be null")
     private int projectId;
 
     @ManyToOne(fetch = FetchType.LAZY)
