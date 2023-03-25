@@ -51,8 +51,8 @@ Project Manager is a REST application for project management.
        INSERT INTO Projects (name, parent_project_id) VALUES ('TestProject_2', 1);
        INSERT INTO Projects (name) VALUES ('TestProject_3');
 
-       INSERT INTO Tasks (name, status, create_date, update_date, executor, project_id) VALUES ('TestTask_1', 'New', '2023-03-22', NULL, 'Manager', 1);
-       INSERT INTO Tasks (name, status, create_date, update_date, executor, project_id) VALUES ('TestTask_2', 'Progress', '2023-03-23', '2023-03-24', 'Tech specialist', 2);
-       INSERT INTO Tasks (name, status, create_date, update_date, executor, project_id) VALUES ('TestTask_3', 'Done', '2023-03-22', '2023-03-23', 'Tech specialist', 3);
+       INSERT INTO Tasks (name, status, create_date, update_date, executor, project_id) VALUES ('TestTask_1', 'NEW', '2023-03-22', NULL, 'MANAGER', 1);
+       INSERT INTO Tasks (name, status, create_date, update_date, executor, project_id) VALUES ('TestTask_2', 'PROGRESS', '2023-03-23', '2023-03-24', 'TECH_SPECIALIST', 2);
+       INSERT INTO Tasks (name, status, create_date, update_date, executor, project_id) VALUES ('TestTask_3', 'DONE', '2023-03-22', '2023-03-23', 'TECH_SPECIALIST', 3);
 
 4. 

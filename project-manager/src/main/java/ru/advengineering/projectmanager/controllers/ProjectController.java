@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import ru.advengineering.projectmanager.exceptions.ProjectErrorResponse;
 import ru.advengineering.projectmanager.exceptions.ProjectNotCreatedException;
@@ -13,7 +12,7 @@ import ru.advengineering.projectmanager.exceptions.ProjectNotUpdatedException;
 import ru.advengineering.projectmanager.models.Project;
 import ru.advengineering.projectmanager.services.ProjectService;
 import ru.advengineering.projectmanager.services.TaskService;
-import ru.advengineering.projectmanager.utils.MessageFromBindingResult;
+import ru.advengineering.projectmanager.utils.ErrorMessageFromBindingResult;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -38,7 +37,7 @@ public class ProjectController {
     @PostMapping("/project")
     public ResponseEntity<HttpStatus> createNewProject(@RequestBody @Valid Project project, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            throw new ProjectNotCreatedException(MessageFromBindingResult
+            throw new ProjectNotCreatedException(ErrorMessageFromBindingResult
                     .returnErrorMessageFromBindingResult(bindingResult).toString());
         }
         projectService.saveProject(project);
@@ -48,7 +47,7 @@ public class ProjectController {
     @PutMapping("/project")
     public ResponseEntity<HttpStatus> updateProject(@RequestBody @Valid Project project, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            throw new ProjectNotUpdatedException(MessageFromBindingResult
+            throw new ProjectNotUpdatedException(ErrorMessageFromBindingResult
                     .returnErrorMessageFromBindingResult(bindingResult).toString());
         }
         projectService.updateProject(project);

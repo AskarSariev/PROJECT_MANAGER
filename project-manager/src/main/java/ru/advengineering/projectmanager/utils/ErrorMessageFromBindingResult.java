@@ -5,7 +5,7 @@ import org.springframework.validation.FieldError;
 
 import java.util.List;
 
-public class MessageFromBindingResult {
+public class ErrorMessageFromBindingResult {
 
     public static StringBuilder returnErrorMessageFromBindingResult(BindingResult bindingResult) {
         StringBuilder errorMsg = new StringBuilder();
