@@ -3,10 +3,12 @@ package ru.advengineering.projectmanager.services;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.advengineering.projectmanager.exceptions.TaskNotFoundException;
 import ru.advengineering.projectmanager.models.Task;
 import ru.advengineering.projectmanager.repositories.TaskRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TaskService {
@@ -28,12 +30,20 @@ public class TaskService {
     }
 
     @Transactional
-    public void updateTask(Task task) {
-        taskRepository.save(task);
+    public void updateTask(Task updatedTask) {
+        Optional<Task> foundTask = taskRepository.findById(updatedTask.getId());
+        if (foundTask.isEmpty()) {
+            throw new TaskNotFoundException();
+        }
+        taskRepository.save(updatedTask);
     }
 
     @Transactional
     public void deleteTask(int id) {
+        Optional<Task> foundTask = taskRepository.findById(id);
+        if (foundTask.isEmpty()) {
+            throw new TaskNotFoundException();
+        }
         taskRepository.deleteById(id);
     }
 }
