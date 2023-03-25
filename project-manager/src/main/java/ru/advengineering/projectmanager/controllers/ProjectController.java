@@ -13,6 +13,7 @@ import ru.advengineering.projectmanager.exceptions.ProjectNotUpdatedException;
 import ru.advengineering.projectmanager.models.Project;
 import ru.advengineering.projectmanager.services.ProjectService;
 import ru.advengineering.projectmanager.services.TaskService;
+import ru.advengineering.projectmanager.utils.MessageFromBindingResult;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -37,7 +38,8 @@ public class ProjectController {
     @PostMapping("/project")
     public ResponseEntity<HttpStatus> createNewProject(@RequestBody @Valid Project project, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            throw new ProjectNotCreatedException(returnErrorMessage(bindingResult).toString());
+            throw new ProjectNotCreatedException(MessageFromBindingResult
+                    .returnErrorMessageFromBindingResult(bindingResult).toString());
         }
         projectService.saveProject(project);
         return ResponseEntity.ok(HttpStatus.OK);
@@ -46,7 +48,8 @@ public class ProjectController {
     @PutMapping("/project")
     public ResponseEntity<HttpStatus> updateProject(@RequestBody @Valid Project project, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            throw new ProjectNotUpdatedException(returnErrorMessage(bindingResult).toString());
+            throw new ProjectNotUpdatedException(MessageFromBindingResult
+                    .returnErrorMessageFromBindingResult(bindingResult).toString());
         }
         projectService.updateProject(project);
         return ResponseEntity.ok(HttpStatus.OK);
@@ -83,16 +86,5 @@ public class ProjectController {
                 System.currentTimeMillis()
         );
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
-
-    private StringBuilder returnErrorMessage(BindingResult bindingResult) {
-        StringBuilder errorMsg = new StringBuilder();
-        List<FieldError> errors = bindingResult.getFieldErrors();
-        for (FieldError error : errors) {
-            errorMsg.append(error.getField())
-                    .append(" - ").append(error.getDefaultMessage())
-                    .append(";");
-        }
-        return errorMsg;
     }
 }
