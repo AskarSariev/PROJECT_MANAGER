@@ -57,7 +57,7 @@ public class ProjectController {
         projectService.deleteProject(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
-    
+
     @ExceptionHandler
     private ResponseEntity<ProjectErrorResponse> handleException(ProjectNotFoundException e) {
         ProjectErrorResponse response = new ProjectErrorResponse(
