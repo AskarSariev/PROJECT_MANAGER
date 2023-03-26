@@ -20,7 +20,7 @@ public class Project {
     @Column(name = "parent_project_id")
     private Integer parentProjectId;
 
-    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Task> tasks;
 
     public Project() {

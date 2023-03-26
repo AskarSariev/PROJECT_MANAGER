@@ -7,7 +7,7 @@ Project Manager is a REST application for project management.
 ### Tools
 
 ![Java 17](https://img.shields.io/badge/-Java17-blue?style=plastic&appveyor)
-![Spring](https://img.shields.io/badge/-Spring_REST-success?style=plastic&appveyor)
+![Spring](https://img.shields.io/badge/-Spring_Web-success?style=plastic&appveyor)
 ![Spring](https://img.shields.io/badge/-Spring_Data_JPA-success?style=plastic&appveyor)
 ![Spring](https://img.shields.io/badge/-Spring_Security-success?style=plastic&appveyor)
 ![Spring](https://img.shields.io/badge/-H2_Database-9cf?style=plastic&appveyor)
@@ -45,6 +45,12 @@ Project Manager is a REST application for project management.
             executor VARCHAR(50) DEFAULT NULL,
             project_id INT NOT NULL,
             FOREIGN KEY (project_id) REFERENCES Projects(id)
+       );
+
+       CREATE TABLE Users (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            username VARCHAR(100) NOT NULL UNIQUE,
+            password VARCHAR(200) NOT NULL
        );
 
        INSERT INTO Projects (name) VALUES ('TestProject_1');
