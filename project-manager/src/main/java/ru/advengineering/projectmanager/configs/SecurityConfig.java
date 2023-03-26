@@ -13,8 +13,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http
-                .httpBasic()
+        http.
+                httpBasic()
                 .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/projects", "/tasks").hasAnyRole("USER", "ADMIN")
@@ -25,14 +25,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/task/**").hasAnyRole("USER", "ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/project/**").hasRole("ADMIN")
                 .and()
-                .csrf().disable()
-                .formLogin().disable();
-//                .formLogin().permitAll()
-//                .defaultSuccessUrl("/projects")
-//                .and()
-//                .logout()
-//                .logoutUrl("/logout")
-//                .logoutSuccessUrl("/login");
+                .formLogin().permitAll()
+                .defaultSuccessUrl("/projects")
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login");
     }
 
     @Override
@@ -40,6 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         User.UserBuilder userBuilder = User.withDefaultPasswordEncoder();
 
         auth.inMemoryAuthentication()
+                .withUser(userBuilder.username("user").password("user").roles("USER"))
                 .withUser(userBuilder.username("manager").password("manager").roles("USER"))
                 .withUser(userBuilder.username("specialist").password("specialist").roles("USER"))
                 .withUser(userBuilder.username("admin").password("admin").roles("ADMIN"));

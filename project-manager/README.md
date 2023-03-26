@@ -7,19 +7,20 @@ Project Manager is a REST application for project management.
 ### Tools
 
 ![Java 17](https://img.shields.io/badge/-Java17-blue?style=plastic&appveyor)
-![Spring](https://img.shields.io/badge/-Spring_Web-success?style=plastic&appveyor)
+![Spring](https://img.shields.io/badge/-Spring_Web_REST-success?style=plastic&appveyor)
 ![Spring](https://img.shields.io/badge/-Spring_Data_JPA-success?style=plastic&appveyor)
 ![Spring](https://img.shields.io/badge/-Spring_Security-success?style=plastic&appveyor)
-![Spring](https://img.shields.io/badge/-H2_Database-9cf?style=plastic&appveyor)
-![Thymeleaf](https://img.shields.io/badge/-Validation-red?style=plastic&appveyor)
+![H2 Database](https://img.shields.io/badge/-H2_Database-9cf?style=plastic&appveyor)
+![Validation](https://img.shields.io/badge/-Validation-red?style=plastic&appveyor)
+![Thymeleaf](https://img.shields.io/badge/-Thymeleaf-yellow?style=plastic&appveyor)
 
 ### Getting started
 
-1. Clone the repo:
+    1. Clone the repo:
 
        git clone https://github.com/AskarSariev/PROJECT_MANAGER.git
 
-2. Application properties:
+    2. Application properties:
 
        spring.datasource.url=jdbc:h2:tcp://localhost/~/test
        spring.datasource.driverClassName=org.h2.Driver
@@ -28,7 +29,7 @@ Project Manager is a REST application for project management.
        spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
        spring.h2.console.enabled=true
 
-3. SQL scripts:
+    3. SQL scripts:
 
        CREATE TABLE Projects (
             id INT PRIMARY KEY AUTO_INCREMENT,
@@ -47,12 +48,6 @@ Project Manager is a REST application for project management.
             FOREIGN KEY (project_id) REFERENCES Projects(id)
        );
 
-       CREATE TABLE Users (
-            id INT PRIMARY KEY AUTO_INCREMENT,
-            username VARCHAR(100) NOT NULL UNIQUE,
-            password VARCHAR(200) NOT NULL
-       );
-
        INSERT INTO Projects (name) VALUES ('TestProject_1');
        INSERT INTO Projects (name, parent_project_id) VALUES ('TestProject_2', 1);
        INSERT INTO Projects (name) VALUES ('TestProject_3');
@@ -61,4 +56,70 @@ Project Manager is a REST application for project management.
        INSERT INTO Tasks (name, status, create_date, update_date, executor, project_id) VALUES ('TestTask_2', 'PROGRESS', '2023-03-23', '2023-03-24', 'TECH_SPECIALIST', 2);
        INSERT INTO Tasks (name, status, create_date, update_date, executor, project_id) VALUES ('TestTask_3', 'DONE', '2023-03-22', '2023-03-23', 'TECH_SPECIALIST', 3);
 
-4. 
+### Postman collection
+
+    - project
+             * GET
+                  /projects
+                  - Get all projects
+
+             * POST
+                  /project
+                  - Create a new parent project
+                  {
+                      "name": "NewProject",
+                      "parentProjectId": null
+                  }
+
+             * POST
+                   /project
+                   - Create a new child project
+                   {
+                       "name": "NewProject",
+                       "parentProjectId": 1
+                   }
+
+             * PUT
+                   /project
+                   - Update project: rename or to change parent_project_id
+                   {
+                        "name": "NewNameProject",
+                        "parentProjectId": null
+                   }
+
+             * DELETE
+                   /project/{id}
+                   - Delete project by ID
+
+    - task
+             * GET
+                  /tasks
+                   - Get all tasks
+
+             * POST
+                  /task
+                  - Create a new task
+                  {
+                      "name": "NewTask",
+                      "status": NEW,
+                      "createDate": "2023-03-23",
+                      "executor": "manager",
+                      "projectId": 1
+                  }
+
+
+             * PUT
+                   /task
+                   - Update task: rename or to change status, updateDate, executor, projectId
+                   {
+                      "name": "NewNameTask",
+                      "status": "PROGRESS",
+                      "createDate": "2023-03-23",
+                      "updateDate": "2023-03-24",
+                      "executor": "TECH_SPECIALIST",
+                      "projectId": 1
+                   }
+
+             * DELETE
+                   /task/{id}
+                   - Delete task by ID
