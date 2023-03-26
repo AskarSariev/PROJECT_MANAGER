@@ -58,7 +58,7 @@ Project Manager is a REST application for project management.
 
 ### Postman collection
 
-    - project
+    - project (only for ADMIN)
              * GET
                   /projects
                   - Get all projects
@@ -91,7 +91,7 @@ Project Manager is a REST application for project management.
                    /project/{id}
                    - Delete project by ID
 
-    - task
+    - task (for ADMIN and USER)
              * GET
                   /tasks
                    - Get all tasks
