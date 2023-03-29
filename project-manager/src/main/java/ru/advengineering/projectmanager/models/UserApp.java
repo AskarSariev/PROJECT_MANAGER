@@ -1,6 +1,5 @@
 package ru.advengineering.projectmanager.models;
 
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -20,7 +19,6 @@ public class UserApp {
     private String username;
 
     @Column(name = "password")
-    @NotEmpty(message = "Password shouldn't be empty")
     private String password;
 
     @Column(name = "role")
