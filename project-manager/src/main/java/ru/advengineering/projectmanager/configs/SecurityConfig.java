@@ -1,29 +1,39 @@
 package ru.advengineering.projectmanager.configs;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import ru.advengineering.projectmanager.services.UserAppDetailsService;
 
+@Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
+public class SecurityConfig {
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    private final UserAppDetailsService userAppDetailsService;
 
-        http.
-                httpBasic()
+    @Autowired
+    public SecurityConfig(UserAppDetailsService userAppDetailsService) {
+        this.userAppDetailsService = userAppDetailsService;
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.csrf().disable()
+                .httpBasic()
                 .and()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/projects", "/tasks").hasAnyRole("USER", "ADMIN")
-                .antMatchers(HttpMethod.POST, "/task").hasAnyRole("USER", "ADMIN")
-                .antMatchers(HttpMethod.POST, "/project").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/task").hasAnyRole("USER", "ADMIN")
-                .antMatchers(HttpMethod.PUT, "/project").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/task/**").hasAnyRole("USER", "ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/project/**").hasRole("ADMIN")
+                .authorizeHttpRequests()
+                .requestMatchers(HttpMethod.GET, "/projects", "/tasks").hasAnyRole("ADMIN", "USER")
+                .requestMatchers(HttpMethod.POST, "/project").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/task").hasAnyRole("ADMIN", "USER")
                 .and()
                 .formLogin().permitAll()
                 .defaultSuccessUrl("/projects")
@@ -31,16 +41,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login");
+
+        return http.build();
+    }
+    @Bean
+    public PasswordEncoder getPasswordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        User.UserBuilder userBuilder = User.withDefaultPasswordEncoder();
-
-        auth.inMemoryAuthentication()
-                .withUser(userBuilder.username("user").password("user").roles("USER"))
-                .withUser(userBuilder.username("manager").password("manager").roles("USER"))
-                .withUser(userBuilder.username("specialist").password("specialist").roles("USER"))
-                .withUser(userBuilder.username("admin").password("admin").roles("ADMIN"));
+    protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userAppDetailsService)
+                .passwordEncoder(getPasswordEncoder());
     }
+
+
 }

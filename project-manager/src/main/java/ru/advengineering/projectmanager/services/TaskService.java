@@ -1,8 +1,8 @@
 package ru.advengineering.projectmanager.services;
 
-import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.advengineering.projectmanager.exceptions.TaskNotCreatedException;
 import ru.advengineering.projectmanager.exceptions.TaskNotFoundException;
 import ru.advengineering.projectmanager.exceptions.TaskNotUpdatedException;

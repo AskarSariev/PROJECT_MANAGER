@@ -28,7 +28,6 @@ public class UserAppDetailsService implements UserDetailsService {
         if (userApp.isEmpty()) {
             throw new UsernameNotFoundException("User not found");
         }
-
         return new UserAppDetails(userApp.get());
     }
 }
