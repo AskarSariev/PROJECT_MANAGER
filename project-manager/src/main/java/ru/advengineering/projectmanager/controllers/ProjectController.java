@@ -59,31 +59,4 @@ public class ProjectController {
         projectService.deleteProject(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
-
-    @ExceptionHandler
-    private ResponseEntity<ProjectErrorResponse> handleException(ProjectNotFoundException e) {
-        ProjectErrorResponse response = new ProjectErrorResponse(
-                "Project with this id wasn't found!",
-                System.currentTimeMillis()
-        );
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler
-    private ResponseEntity<ProjectErrorResponse> handleException(ProjectNotCreatedException e) {
-        ProjectErrorResponse response = new ProjectErrorResponse(
-                e.getMessage(),
-                System.currentTimeMillis()
-        );
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
-    private ResponseEntity<ProjectErrorResponse> handleException(ProjectNotUpdatedException e) {
-        ProjectErrorResponse response = new ProjectErrorResponse(
-                e.getMessage(),
-                System.currentTimeMillis()
-        );
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
 }

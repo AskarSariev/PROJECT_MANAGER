@@ -46,7 +46,7 @@ public class TaskService {
     public void updateTask(Task updatedTask) {
         Optional<Task> foundTask = taskRepository.findById(updatedTask.getId());
         if (foundTask.isEmpty()) {
-            throw new TaskNotFoundException();
+            throw new TaskNotFoundException("");
         }
         if (checkValueFieldTaskStatus(updatedTask)) {
             throw new TaskNotUpdatedException("Task status should be NEW, PROGRESS or DONE");
@@ -63,7 +63,7 @@ public class TaskService {
     public void deleteTask(int id) {
         Optional<Task> foundTask = taskRepository.findById(id);
         if (foundTask.isEmpty()) {
-            throw new TaskNotFoundException();
+            throw new TaskNotFoundException("Task with this id wasn't found!");
         }
         taskRepository.deleteById(id);
     }

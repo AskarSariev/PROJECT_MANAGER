@@ -18,6 +18,9 @@ public class Project {
     @NotEmpty(message = "Project name shouldn't be empty")
     private String name;
 
+    @Column(name = "parent_project_id")
+    private Integer parentProjectId;
+
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_project_id", referencedColumnName = "id", insertable=false, updatable=false)
     private Project parentProject;
@@ -70,6 +73,14 @@ public class Project {
 
     public void setChildrenProjects(List<Project> childrenProjects) {
         this.childrenProjects = childrenProjects;
+    }
+
+    public Integer getParentProjectId() {
+        return parentProjectId;
+    }
+
+    public void setParentProjectId(Integer parentProjectId) {
+        this.parentProjectId = parentProjectId;
     }
 
     @Override

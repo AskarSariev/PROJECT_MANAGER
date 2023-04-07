@@ -37,6 +37,8 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/projects", "/tasks").hasAnyRole("ADMIN", "USER")
                 .requestMatchers(HttpMethod.POST, "/project").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/task").hasAnyRole("ADMIN", "USER")
+                .requestMatchers(HttpMethod.DELETE, "/project/{id}").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/task/{id}").hasAnyRole("ADMIN", "USER")
                 .and()
                 .formLogin().permitAll()
                 .defaultSuccessUrl("/projects")

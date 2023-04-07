@@ -50,34 +50,11 @@ public class TaskController {
 
     @DeleteMapping("/task/{id}")
     public ResponseEntity<HttpStatus> deleteTask(@PathVariable("id") int id) {
-        taskService.deleteTask(id);
-        return ResponseEntity.ok(HttpStatus.OK);
-    }
-
-    @ExceptionHandler
-    private ResponseEntity<TaskErrorResponse> handleException(TaskNotFoundException e) {
-        TaskErrorResponse response = new TaskErrorResponse(
-                "Task with this id wasn't found!",
-                System.currentTimeMillis()
-        );
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler
-    private ResponseEntity<TaskErrorResponse> handleException(TaskNotCreatedException e) {
-        TaskErrorResponse response = new TaskErrorResponse(
-                e.getMessage(),
-                System.currentTimeMillis()
-        );
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
-    private ResponseEntity<TaskErrorResponse> handleException(TaskNotUpdatedException e) {
-        TaskErrorResponse response = new TaskErrorResponse(
-                e.getMessage(),
-                System.currentTimeMillis()
-        );
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        try {
+            taskService.deleteTask(id);
+            return ResponseEntity.ok(HttpStatus.OK);
+        } catch (TaskNotFoundException e) {
+            throw new TaskNotFoundException("Task with this id wasn't found!");
+        }
     }
 }
