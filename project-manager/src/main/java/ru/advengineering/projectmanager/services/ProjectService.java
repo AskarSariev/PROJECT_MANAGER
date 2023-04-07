@@ -9,6 +9,7 @@ import ru.advengineering.projectmanager.repositories.ProjectRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProjectService {
@@ -21,7 +22,10 @@ public class ProjectService {
     }
 
     public List<Project> findAllProjects() {
-        return projectRepository.findAll();
+        return projectRepository.findAll()
+                .stream()
+                .filter(project -> project.getParentProjectId() == null)
+                .collect(Collectors.toList());
     }
 
     @Transactional

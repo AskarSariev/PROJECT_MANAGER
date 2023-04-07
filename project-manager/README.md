@@ -137,7 +137,7 @@ progress, done), дату создания, дату изменения стат
                   - Create a new task
                   {
                       "name": "NewTask",
-                      "status": NEW,
+                      "status": "NEW",
                       "createDate": "2023-03-23",
                       "executor": "manager",
                       "projectId": 1
