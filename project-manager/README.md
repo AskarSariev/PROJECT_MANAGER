@@ -94,12 +94,12 @@ progress, done), дату создания, дату изменения стат
 
 ### Postman collection
 
-    - project (only for ADMIN)
+    - project (for ADMIN and USER)
              * GET
                   /projects
                   - Get all projects
 
-             * POST
+             * POST (only for ADMIN)
                   /project
                   - Create a new parent project
                   {
@@ -107,7 +107,7 @@ progress, done), дату создания, дату изменения стат
                       "parentProjectId": null
                   }
 
-             * POST
+             * POST (only for ADMIN)
                    /project
                    - Create a new child project
                    {
@@ -115,7 +115,7 @@ progress, done), дату создания, дату изменения стат
                        "parentProjectId": 1
                    }
 
-             * PUT
+             * PUT (only for ADMIN)
                    /project
                    - Update project: rename or to change parent_project_id
                    {
@@ -123,7 +123,7 @@ progress, done), дату создания, дату изменения стат
                         "parentProjectId": null
                    }
 
-             * DELETE
+             * DELETE (only for ADMIN)
                    /project/{id}
                    - Delete project by ID
 

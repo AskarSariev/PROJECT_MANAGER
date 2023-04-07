@@ -17,10 +17,20 @@ public class Project {
     @Column(name = "name")
     @NotEmpty(message = "Project name shouldn't be empty")
     private String name;
-    @Column(name = "parent_project_id")
-    private Integer parentProjectId;
 
-    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_project_id", referencedColumnName = "id", insertable=false, updatable=false)
+    private Project parentProject;
+
+    @OneToMany(
+            cascade = {CascadeType.ALL},
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
+    @JoinColumn(name = "parent_project_id")
+    private List<Project> childrenProjects;
+
+    @OneToMany(mappedBy = "project", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Task> tasks;
 
     public Project() {
@@ -28,11 +38,6 @@ public class Project {
 
     public Project(String name) {
         this.name = name;
-    }
-
-    public Project(String name, Integer parentProjectId) {
-        this.name = name;
-        this.parentProjectId = parentProjectId;
     }
 
     public int getId() {
@@ -51,14 +56,6 @@ public class Project {
         this.name = name;
     }
 
-    public Integer getParentProjectId() {
-        return parentProjectId;
-    }
-
-    public void setParentProjectId(Integer parentProjectId) {
-        this.parentProjectId = parentProjectId;
-    }
-
     public List<Task> getTasks() {
         return tasks;
     }
@@ -67,12 +64,20 @@ public class Project {
         this.tasks = tasks;
     }
 
+    public List<Project> getChildrenProjects() {
+        return childrenProjects;
+    }
+
+    public void setChildrenProjects(List<Project> childrenProjects) {
+        this.childrenProjects = childrenProjects;
+    }
+
     @Override
     public String toString() {
         return "Project{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", parentProjectId=" + parentProjectId +
+                ", childrenProjects=" + childrenProjects +
                 ", tasks=" + tasks +
                 '}';
     }

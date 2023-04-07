@@ -37,7 +37,7 @@ public class Task {
     @NotNull(message = "Project_ID shouldn't be null")
     private int projectId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "project_id", insertable=false, updatable=false)
     private Project project;
 
